@@ -1,0 +1,18 @@
+{
+    "name": "eliphaz/bloggy",
+    "description": "php simple blog",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Eliphaz\\Bloggy\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eliphaz BOUYE",
+            "email": "eliphazbouye@gmail.com"
+        }
+    ],
+    "require": {}
+}
