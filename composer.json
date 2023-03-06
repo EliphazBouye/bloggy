@@ -1,11 +1,11 @@
 {
     "name": "eliphaz/bloggy",
-    "description": "php simple blog",
+    "description": "php simple mvc blog",
     "type": "project",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Eliphaz\\Bloggy\\": "src/"
+            "Bloggy\\": "src/"
         }
     },
     "authors": [
