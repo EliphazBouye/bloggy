@@ -2,8 +2,6 @@
 
 namespace Bloggy;
 
-use ReflectionFunction;
-
 /**
  * Route class
  */
@@ -28,6 +26,7 @@ class Route{
         if (is_callable(self::$routes[$result_search]['handler'])) {
             return self::$routes[$result_search]['handler']();
         } else if (gettype(self::$routes[$result_search]['handler']) === 'array') {
+            
             $uri = self::$routes[$result_search]['uri'];
             $handler = explode('@', self::$routes[$result_search]['handler'][0]);
             $controller = $handler[0];
