@@ -7,7 +7,6 @@ namespace Bloggy;
  */
 class Route{
     static private $routes = [];
-    static private $query_params;
     /**
      * get handle for get method
      * Params
