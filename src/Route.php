@@ -32,19 +32,45 @@ class Route{
             $controller = $handler[0];
             $method  = $handler[1];
 
-            if (str_contains($uri, ":")) {
-                $param = explode(':', $uri);
-                if (array_key_exists($param[1], $_GET) != null) {
-                    self::$query_params = $_GET[$param[1]];
-                    self::init_class($controller, $method, self::$query_params);
-                } else {
-                    echo "Key $param[1] is required";
-                }
+            $params_required = self::required_params($uri);
+            $params = self::find_params($uri, $params_required);
+
+            if (is_array($params)) {
+                self::init_class($controller, $method, $params);
+            } else {
+                echo "Key $params is required";
             }
         }
     }
 
-    static private function init_class($controller, $method, $param) {
+    static private function required_params(string $uri) : array{
+        if (str_contains($uri, ":")) {
+            // get uri query params
+            preg_match_all('/(?<!\w):\w+/', $uri, $result, PREG_PATTERN_ORDER);
+            $params = array();
+            foreach($result[0] as $param) {
+                array_push($params, ltrim($param, ':'));
+            }
+            return $params;
+        }
+    }
+
+    static private function find_params($uri, $required_params): array {
+        $uri_all_values = preg_split('/\//', $_SERVER['REQUEST_URI'], -1, PREG_PATTERN_ORDER);
+        preg_match_all('/(?<=\/)[^:\/]+/', $uri, $matches);
+
+        $all_params = array();
+        $params_values = array_diff($uri_all_values, $matches[0]);
+
+        $query_parameters = array_values($params_values);
+        for($i = 0; $i < count($required_params); $i++) {
+            array_push($all_params, array($required_params[$i] => $query_parameters[$i]));
+        }
+
+        return $all_params;
+    }
+
+    static private function init_class($controller, $method, $params) {
         $controller_folder = __DIR__ . "/controllers";
         $class_file = $controller_folder . '/' . $controller . '.php';
 
@@ -55,8 +81,24 @@ class Route{
             $class = new $class_namespace();
             
             $reflection = new \ReflectionMethod($class, $method);
+            $reflector = new \ReflectionClass($class);
+
+            $parameters = $reflector->getMethod($method)->getParameters();
             if ($reflection->getNumberOfRequiredParameters() > 0) {
-                return $class->$method($param);
+                if (count($params) > 1) {
+                    $args = array();
+                    $url_params = array();
+                    foreach($params as $param){
+                        array_push($url_params, array_values($param)[0]);
+                    }
+
+                    foreach($parameters as $key => $parameter){
+                        $args[$parameter->name] = $url_params[$key];
+                    }
+                    // print_r($args);
+                    return $class->$method(...$args);
+                }
+                return $class->$method($params);
             }
 
             return $class->$method();
