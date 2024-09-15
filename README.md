@@ -1,10 +1,7 @@
 # Bloggy | Project for implement MVC achitecture
 
-Deferents features should be added :
-- [ ] Templates
-- [ ] Routing
-- [ ] Filters
-- [ ] Cache
-- [ ] Validation
-- [ ] Data annotation
-- [ ] Security
+What is Bloggy ?  
+Bloggy is a simple blog to see some PHP language feature and implement M-V-C (Model-View-Controler)  
+
+What is MVC ?  
+
