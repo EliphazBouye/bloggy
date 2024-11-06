@@ -1,8 +1,8 @@
 <?php
 
-namespace Bloggy\Controller;
+namespace Bloggy\App\Controller;
 
-use Bloggy\App\Controller;
+use Bloggy\Core\Controller;
 
 class TestController extends Controller {
   public function index(): void {

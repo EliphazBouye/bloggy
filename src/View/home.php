@@ -1,3 +1,2 @@
-<h1>
-  <?php echo "Hello world from PHP!"; ?>
-</h1>
+<h1>Title : <?= $title ?></h1>
+<p><?= $content ?></p>

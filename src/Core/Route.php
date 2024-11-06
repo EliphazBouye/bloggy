@@ -1,6 +1,6 @@
 <?php
 
-namespace Bloggy\App;
+namespace Bloggy\Core;
 
 class Route {
   public function __construct()
@@ -10,13 +10,12 @@ class Route {
    * @param $hander
    * @param $name
   */
-  static public function get(string $uri, array $handler, string $name): void {
+  static public function get(string $uri, array $handler, string $name = null): void {
     if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
       throw new \Exception("Error this method is not allowed here!"); 
     }
 
-    // print_r($_SERVER['HTTP_HOST']);
-    if ($_SERVER['PHP_SELF'] === $uri) {
+    if ($_SERVER['PHP_SELF'] == '/index.php' || $_SERVER['PHP_SELF'] == '/index.php' . $uri) {
       try {
         // Target our class
         $class = new \ReflectionClass($handler[0]);
@@ -30,8 +29,9 @@ class Route {
         throw new \ErrorException($e->getMessage());
       }
     }
+
     else {
-      // echo $_SERVER['PHP_SELF']; 
+      throw new \Exception("This route dons't exist"); 
     } 
   }
 }

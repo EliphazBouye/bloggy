@@ -1,8 +1,10 @@
 <?php
 
-namespace Bloggy\Model;
+namespace Bloggy\Core;
 
 class Model{
   public function __construct()
-  { }
+  {
+     
+  }
 }
